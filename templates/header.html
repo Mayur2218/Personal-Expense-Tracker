@@ -1,0 +1,125 @@
+{% extends 'main.html' %}
+    {% block body %}
+    <div>
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-md-4">
+                    <div class="card p-3 text-center">
+                        <h5>Account Balance</h5>
+                        <h2>₹8,234</h2>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-3 text-center">
+                        <h5>Salary</h5>
+                        <h2>₹20,678</h2>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card p-3 text-center">
+                        <h5>Total Expenses</h5>
+                        <h2>₹7,444</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <div class="text-center">
+                <h1 class="fw-bold">Welcome to <span class="text-primary">Expense Tracker</span></h1>
+                <p class="lead fw-medium">Track your daily expenses, manage budgets, and take control of your
+                    finances.</p>
+                <a href="/add-expense" class="btn btn-primary btn-lg mt-3"><i class="fas fa-plus"></i> Add New
+                    Expense</a>
+            </div>
+
+            <div class="row mt-5 align-items-stretch">
+                <div class="col-md-4">
+                    <div class="card shadow-sm text-center p-4 w-100 h-100">
+                        <h4>Total Expenses</h4>
+                        <p class="fw-bold fs-4">₹5000</p>
+                        <h4>Expense Categories</h4>
+                        <p>Food, Transport, Shopping, Entertainment, Other</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm p-4 w-100 h-100">
+                        <h4>Monthly Expenses</h4>
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm p-4 w-100 h-100">
+                        <h4>Expense Categories</h4>
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <h3 class="fw-bold">Recent Transactions</h3>
+                <table class="table table-hover mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Date</th>
+                            <th>Expense</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in allExpense %}
+                        <tr>
+                            <td>{{loop.index}}</td>
+                            <td>{{data.date}}</td>
+                            <td>{{data.expense}}</td>
+                            <td>{{data.category}}</td>
+                            <td>{{data.amount}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <div class="container px-4 py-5">
+            <h2 class="pb-2 border-bottom">Features our users love</h2>
+        
+            <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
+              <div class="col d-flex flex-column align-items-start gap-2">
+                <img src="/static/assets/piggy.png" style="height: 100px; width: 100px;">
+                <h2 class="fw-bold text-body-emphasis">Saving plan</h2>
+                <p class="text-body-secondary">Keep track on saving process to meet your financial goals.</p>
+              </div>
+              <div class="col">
+                <div class="row row-cols-1 row-cols-sm-2 g-4">
+                  <div class="col d-flex flex-column gap-2">
+                    <img src="/static/assets/recuressive.jpg" style="height: 100px; width: 100px;">
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Recurring transaction</h4>
+                    <p class="text-body-secondary">Get notified of recurring bills and transactions before due date.</p>
+                  </div>
+        
+                  <div class="col d-flex flex-column gap-2">
+                    <img src="/static/assets/travel.jpg" style="height: 100px; width: 100px;">
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Travel mode</h4>
+                    <p class="text-body-secondary">All currencies supported with up-to-date exchange rate.</p>
+                  </div>
+        
+                  <div class="col d-flex flex-column gap-2">
+                    <img src="/static/assets/piggy.png" style="height: 100px; width: 100px;">
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Debt and loan</h4>
+                    <p class="text-body-secondary">Manage your debts, loans and payment process in one place.</p>
+                  </div>
+        
+                  <div class="col d-flex flex-column gap-2">
+                    <img src="/static/assets/piggy.png" style="height: 100px; width: 100px;">
+                    <h4 class="fw-semibold mb-0 text-body-emphasis">Effortless transaction entry</h4>
+                    <p class="text-body-secondary">Entry a transaction quickly and easily, manually or automatically.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+    {% include 'footer.html' %}
+    {% endblock body %}

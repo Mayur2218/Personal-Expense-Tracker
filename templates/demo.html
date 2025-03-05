@@ -1,0 +1,180 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #343a40;
+            color: white;
+            padding-top: 20px;
+            position: fixed;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+        }
+        .sidebar a:hover {
+            background: #495057;
+        }
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+            width: 100%;
+        }
+        .card {
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h4 class="text-center">Dashboard</h4>
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-chart-bar"></i> Analytics</a>
+        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+    </div>
+    
+    <div class="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <span class="navbar-brand">Welcome, User</span>
+                <button class="btn btn-outline-primary">Logout</button>
+            </div>
+        </nav>
+        
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card p-3 text-center">
+                    <h5>Account Balance</h5>
+                    <h2>$8,234</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-3 text-center">
+                    <h5>Income Balance</h5>
+                    <h2>$15,678</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-3 text-center">
+                    <h5>Total Expenses</h5>
+                    <h2>$7,444</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <div class="card p-3">
+                    <h5 class="text-center">Category-wise Expenses</h5>
+                    <canvas id="categoryExpenseChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-3">
+                    <h5 class="text-center">Expense Breakdown</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">Rent: $1200</li>
+                        <li class="list-group-item">Food: $900</li>
+                        <li class="list-group-item">Transport: $500</li>
+                        <li class="list-group-item">Entertainment: $700</li>
+                        <li class="list-group-item">Others: $400</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <h5 class="text-center">Income vs Expenses</h5>
+                    <canvas id="incomeExpenseChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-3">
+                    <h5 class="text-center">Total Expenses Chart</h5>
+                    <canvas id="expenseChart"></canvas>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const ctx = document.getElementById('expenseChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Rent', 'Food', 'Transport', 'Entertainment', 'Others'],
+                datasets: [{
+                    label: 'Expenses',
+                    data: [1200, 900, 500, 700, 400],
+                    backgroundColor: ['blue', 'orange', 'purple', 'yellow', 'gray'],
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        const incomeExpenseCtx = document.getElementById('incomeExpenseChart').getContext('2d');
+        new Chart(incomeExpenseCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Income',
+                    data: [5000, 6000, 7500, 8000, 7000, 7200],
+                    borderColor: 'green',
+                    fill: false
+                }, {
+                    label: 'Expenses',
+                    data: [1200, 1900, 3000, 500, 2300, 1800],
+                    borderColor: 'red',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+        
+        const categoryExpenseCtx = document.getElementById('categoryExpenseChart').getContext('2d');
+        new Chart(categoryExpenseCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Rent', 'Food', 'Transport', 'Entertainment', 'Others'],
+                datasets: [{
+                    label: 'Category-wise Expenses',
+                    data: [1200, 900, 500, 700, 400],
+                    backgroundColor: ['blue', 'orange', 'purple', 'yellow', 'gray']
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    </script>
+</body>
+</html> -->
