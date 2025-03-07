@@ -1,58 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Expense Tracker</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" href="static/styles.css">
-</head>
-<body>
-    <div class="container mt-4">
-        <h2>Expense Reports</h2>
+{% extends 'main.html' %}
+{% block body %}
 
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Date</th>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Amount</th>
-                    <th>Update & Delete</th>
-                </tr>
-            </thead>
-            <!-- <tbody>
-                <tr>
-                    <td>2025-02-01</td>
-                    <td>Groceries</td>
-                    <td>Food</td>
-                    <td>$50</td>
-                </tr>
-                <tr>
-                    <td>2025-02-02</td>
-                    <td>Uber Ride</td>
-                    <td>Transport</td>
-                    <td>$15</td>
-                </tr>
-            </tbody> -->
-            <tbody>
-                {% for data in allExpense %}
-                <tr>
-                    <td>{{loop.index}}</td>
-                    <td>{{data.date}}</td>
-                    <td>{{data.expense}}</td>
-                    <td>{{data.category}}</td>
-                    <td>{{data.amount}}</td>
-                    <td><a href="/update/{{data.id}}" type="button" class="btn btn-primary btn-sm mx-1">Update</a>
-                    <a href="/delete/{{data.id}}" type="button" class="btn btn-primary btn-sm mx-1">Delete</a></td>
-                </tr> 
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="container mt-4">
+    <h2>Expense Reports</h2>
+
+
+    {% if allExpense|length == 0 %}
+  
+    <div class="alert alert-dark" role="alert">
+        No record found. Add your first Expense?
+        <div class="d-flex justify-content-end">
+            <a href="/add-expense" type="button" class="btn btn-primary mx-1">Add</a>
+          </div>      
     </div>
+    {% else %}
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Update & Delete</th>
+            </tr>
+        </thead>
 
-</body>
-</html>
+        <tbody>
+
+            {% for data in allExpense %}
+            <tr>
+                <td>{{loop.index}}</td>
+                <td>{{data.date}}</td>
+                <td>{{data.expense}}</td>
+                <td>{{data.category}}</td>
+                <td>{{data.amount}}</td>
+                <td><a href="/update/{{data.id}}" type="button" class="btn btn-primary btn-sm mx-1">Update</a>
+                    <a href="/delete/{{data.id}}" type="button" class="btn btn-primary btn-sm mx-1">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+    {% endif %}
+
+</div>
+
+{% endblock body %}

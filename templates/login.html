@@ -12,12 +12,18 @@
         }
 
         .login-container {
-            max-width: 400px;
+            max-width: 450px;
             margin: 100px auto;
             padding: 20px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .login-container .cardbody{
+            margin-left: 50px;
+            margin-right: 50px;
+            margin-top: 45px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -27,16 +33,17 @@
     <div class="container">
         <div class="login-container">
             <h3 class="text-center">Login to Expense Tracker</h3>
-            <form action="/header" method="GET">
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email ID</label>
-                    <input type="text" class="form-control" id="email" name="email" required>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="cardbody">
+                    <label for="email" class="form-label">{{ form.email.label }}</label>
+                    {{ form.email(class="form-control", id="email", placeholder="Enter your email") }}
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                <div class="cardbody">
+                    <label for="password" class="form-label">{{ form.password.label }}</label>
+                    {{ form.password(class="form-control", id="password", placeholder="Enter your password") }}
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <button type="submit" class="btn btn-primary d-grid col-4 mx-auto w-10">{{form.submit.label}}</button>
             </form>
             <p class="text-center mt-3">
                 Don't have an account? <a href="/signup">Signup</a>
