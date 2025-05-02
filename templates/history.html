@@ -1,0 +1,103 @@
+{% extends 'main.html' %}
+{% block body %}
+<div class="container mt-4" style="padding-top:10px;">
+    <div class="row justify-content-between align-items-center mb-3">
+        <div class="col-md-4 mt-2">
+            <h4 class="fw-semibold text-dark">𝐑𝐞𝐜𝐞𝐧𝐭𝐥𝐲 𝐄𝐱𝐩𝐞𝐧𝐬𝐞𝐬</h4>
+        </div>
+        <div class="col-md-8">
+            <form method="GET" class="row g-2 justify-content-end align-items-end">
+                {{ form.hidden_tag() }}
+                <div class="col-auto">
+                    <label class="form-label small mb-1">{{ form.start_date.label }}</label>
+                    {{ form.start_date(class="form-control", style="height:40px;", id="start_date", value=request.args.get('start_date', '')) }}
+                </div>
+                <div class="col-auto">
+                    <label class="form-label small mb-1">{{ form.end_date.label }}</label>
+                    {{ form.end_date(class="form-control", style="height:40px;",id="end_date", value=request.args.get('end_date', '')) }}
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn" style="background-color:#1e3a8a; color:white;">{{ form.submit.label }}</button>
+                    <a href="{{ url_for(request.endpoint) }}" class="btn" style="background-color:#1e3a8a; color:white;">Clear</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% if all_expenses or expense %}
+    <div class="table-responsive mt-3">
+        <table class="table table-hover table-bordered align-middle shadow-sm">
+            <thead class="table-dark text-center">
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Expense</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Edit / Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for data in all_expenses or expense %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ data.date }}</td>
+                <td>{{ data.expense }}</td>
+                <td>{{ data.category }}</td>
+                <td>₹ {{ data.amount }}</td>
+                <td class="text-center">
+                    <a href="/update/{{ data.id }}" class="btn btn-primary btn-sm me-1" style="width:75px;">Edit</a>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger btn-sm me-1" data-bs-toggle="modal" data-bs-target="#exampleModal{{data.id}}">Delete</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal{{data.id}}" aria-labelledby="exampleModalLabel{{data.id}}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel{{data.id}}">Delete Confirmation</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete this expense?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                    <a href="/delete/{{ data.id }}" class="btn btn-danger btn-sm mx-1" style="width:75px;">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if all_expenses or expense %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if page > 1%}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('history', page=page-1, start_date=request.args.get('start_date'), end_date=request.args.get('end_date')) }}">Previous</a></li>
+                    {% endif %}
+                <span class="align-items-center" style="align-content:center; margin-left:20px; margin-right:20px;">Page {{page}} of {{ total_pages}}</span>
+                {% if page < total_pages %}
+                    <li class="page-item">
+                      <a class="page-link" href="{{ url_for('history', page=page+1, start_date=request.args.get('start_date'), end_date=request.args.get('end_date')) }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock body %}

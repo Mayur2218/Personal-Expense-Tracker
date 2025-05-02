@@ -1,0 +1,71 @@
+{% extends 'main.html' %}
+{% block body %}
+    <div class="row align-items-center justify-content-center" style="padding:50px;">
+        {% if user %}
+        <div class="col-lg-10 bg-white shadow rounded-4 p-4">
+            <div class="row g-4">
+                <!-- Profile Section -->
+                <div class="col-md-4 border-end">
+                    <div class="text-center" style="margin-top:40px;">
+                        {% if file_url.endswith(('.png', '.jpg', '.jpeg', '.gif')) %}
+                            <img class="rounded-circle border shadow-sm" width="130px" height="130px" src="{{ file_url }}">
+                        {% else %}
+                            <p>Uploaded file: <a href="{{ file_url }}" target="_blank">Download</a></p>
+                        {% endif %}
+                        <h5 class="mt-3 text-primary fw-semibold">{{ user.name }}</h5>
+                        <p class="text-dark">{{ user.email }}</p>
+                    </div>
+                    <form method="post" enctype="multipart/form-data" class="mt-4">
+                        <div class="d-flex flex-column gap-2">
+                            <input class="form-control" type="file" name="file" style="margin-top:50px;">
+                            <input class="btn btn-outline-primary" type="submit" value="{{ 'Change' if file_url else 'Upload' }}">
+                        </div>
+                    </form>
+                </div>
+                <!-- Account Details Section -->
+                <div class="col-md-8">
+                    <div class="mb-4 border-bottom pb-2">
+                        <h4 class="fw-bold text-dark">Your Account Overview</h4>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">First Name</label>
+                            <div class="form-control bg-light">{{ user.name }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Last Name</label>
+                            <div class="form-control bg-light">{{ user.lastname }}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Weekly Total Expense</label>
+                            <div class="form-control bg-light">₹ {{ last_week }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Monthly Total Expense</label>
+                            <div class="form-control bg-light">₹ {{ last_month }}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold">Highest Expense Category</label>
+                            <div class="form-control bg-light">{{ high_category }}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Remaining Balance</label>
+                            <div class="form-control bg-light">₹ {{ account_balance }}</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Initial Balance</label>
+                            <div class="form-control bg-light">₹ {{ initial_balance }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'main.html' %}
+{% block body %}
+<div class="container rounded-4 shadow-sm p-4 mt-4">
+    <div class="row align-items-end mb-3">
+        <div class="col">
+            <h4 class="fw-semibold text-dark mb-0">𝐘𝐞𝐚𝐫𝐥𝐲 𝐄𝐱𝐩𝐞𝐧𝐬𝐞𝐬</h4>
+        </div>
+        <div class="col-auto ms-auto d-flex align-items-end gap-2">
+            <form method="GET" action="{{ url_for('year') }}" class="d-flex">
+                <input type="text" name="from" class="form-control" style="height:40px;" placeholder="𝐄𝐧𝐭𝐞𝐫 𝐘𝐞𝐚𝐫 (𝐞.𝐠. 2024)" id="from">
+                <button type="submit" class="btn btn-sm ms-1" style="background-color:#1e3a8a; color:white;">𝐒𝐞𝐚𝐫𝐜𝐡</button>
+            </form>
+            <a href="{{ url_for('download', report_type='year') }}" class="btn btn-outline-dark btn-sm">𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝</a>
+            <div class="dropdown">
+                <button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    𝐓𝐲𝐩𝐞𝐬 𝐨𝐟 𝐃𝐚𝐭𝐚
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/weekly">𝐖𝐞𝐞𝐤𝐥𝐲 𝐄𝐱𝐩𝐞𝐧𝐬𝐞𝐬</a></li>
+                    <li><a class="dropdown-item" href="/monthly">𝐌𝐨𝐧𝐭𝐡𝐥𝐲 𝐄𝐱𝐩𝐞𝐧𝐬𝐞𝐬</a></li>
+                    <li><a class="dropdown-item" href="/year">𝐘𝐞𝐚𝐫 𝐄𝐱𝐩𝐞𝐧𝐬𝐞𝐬</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="accordion" id="accordionExample">
+        {% for year, records in month_data.items() %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading {{ loop.index }}">
+                <button class="accordion-button {% if not loop.first %}collapsed {% endif %}" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse{{loop.index}}"
+                        aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" aria-controls="collapse {{ loop.index }}">Year - {{ year }}
+                </button>
+            </h2>
+            <div id="collapse{{loop.index}}" class="accordion-collapse collapse {% if loop.first %} show {% endif %}"
+                 aria-labelledby="heading{{ loop.index }}"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered shadow-sm">
+                            <thead class="table-dark text-center">
+                                <tr>
+                                    <th style="text-align:left;padding-left: 30px;">Month Name</th>
+                                    <th style="text-align:left;padding-left: 20px;">Total Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for data in records %}
+                                <tr>
+                                    <td style="text-align:left; width:80%; padding-left: 30px;">{{ data.month }}</td>
+                                    <td style="text-align:left;padding-left: 20px;">₹ {{ data.amount }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>&nbsp;
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}

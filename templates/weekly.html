@@ -1,0 +1,78 @@
+{% extends 'main.html' %}
+{% block body %}
+<div class="container rounded-4 shadow-sm p-4 mt-4">
+    <div class="row align-items-end mb-3">
+        <div class="col">
+            <h4 class="fw-semibold text-black mb-0">𝐖𝐞𝐞𝐤𝐥𝐲 𝐄𝐱𝐩𝐞𝐧𝐬𝐞𝐬</h4>
+        </div>
+        <div class="col-auto ms-auto d-flex align-items-end gap-2">
+            <form method="GET" action="{{ url_for('weekly') }}" class="d-flex">
+                <input type="text" name="from" class="form-control" style="height:40px;" placeholder="𝐖𝐞𝐞𝐤 𝐍𝐮𝐦𝐛𝐞𝐫" id="from">
+                <button type="submit" class="btn ms-2 btn-sm" style="background-color:#1e3a8a; color:white;" id="range">𝐒𝐞𝐚𝐫𝐜𝐡</button>
+            </form>
+            <div class="dropdown d-grid d-md-flex justify-content-md-end">
+                <button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">𝐓𝐲𝐩𝐞𝐬 𝐨𝐟 𝐃𝐚𝐭𝐚</button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/weekly">𝐖𝐞𝐞𝐤𝐥𝐲 𝐄𝐱𝐩𝐞𝐧𝐬𝐞𝐬</a></li>
+                    <li><a class="dropdown-item" href="/monthly">𝐌𝐨𝐧𝐭𝐡𝐥𝐲 𝐄𝐱𝐩𝐞𝐧𝐬𝐞𝐬</a></li>
+                    <li><a class="dropdown-item" href="/year">𝐘𝐞𝐚𝐫 𝐄𝐱𝐩𝐞𝐧𝐬𝐞𝐬</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    <div class="accordion" id="accordionExample">
+        {% for week, records in allExpense.items() %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading {{ loop.index }}">
+                <button class="accordion-button {% if not loop.first %}collapsed {% endif %}" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse{{loop.index}}"
+                        aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" aria-controls="collapse {{ loop.index }}">{{ week }}</button>
+            </h2>
+            <div id="collapse{{loop.index}}" class="accordion-collapse collapse {% if loop.first %} show {% endif %}"
+                 aria-labelledby="heading{{ loop.index }}"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Id</th>
+                                <th>Date</th>
+                                <th>Expense</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in records %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ item.date }}</td>
+                                <td>{{ item.expense }}</td>
+                                <td>{{ item.category }}</td>
+                                <td>{{ item.amount }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        &nbsp;
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}
+

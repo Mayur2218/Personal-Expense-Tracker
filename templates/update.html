@@ -1,33 +1,56 @@
+<!DOCTYPE html>
 {% extends 'main.html' %}
-{% block body %}
-
-<div class="container mt-5 bg-dark-subtle">
-    <h2>Update Expense</h2>
-
-    <form action="/update/{{data.id}}" method="POST">
-        <div class="mb-3">
-            <label for="title" class="form-label">Expense Title</label>
-            <input type="text" class="form-control" id="title" value="{{data.expense}}" name="title">
+{% block body %} 
+<div class="container-md mt-4">
+    <h2>𝐔𝐩𝐝𝐚𝐭𝐞 𝐘𝐨𝐮𝐫 𝐄𝐱𝐩𝐞𝐧𝐬𝐞𝐬 </h2>
+    <form method="POST">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {{ form.hidden_tag() }}
+        <div class="mb-3 mt-4">
+            <label class="form-label fw-bold">{{ form.expense.label}}</label>
+            {{ form.expense(class="form-control", id="title", value=form.expense.data or allExpense.expense, placeholder="Enter your expense item name") }}
         </div>
         <div class="mb-3">
-            <label for="amount" class="form-label">Amount (₹)</label>
-            <input type="number" class="form-control" id="amount" value="{{data.amount}}" name="amount">
+            <label class="form-label fw-bold">{{ form.amount.label }}</label>
+            {{ form.amount(class="form-control", id="amount", value=form.amount.data or allExpense.amount, placeholder="Emter amount") }}
         </div>
         <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <select class="form-control" id="category" name="category">
-                <option value="Food" {% if data.category=='Food' %} selected {% endif %}>Food</option>
-                <option value="Transport" {% if data.category=='Transport' %}selected{% endif %}>Transport</option>
-                <option value="Shopping" {% if data.category=='Shopping' %}selected{% endif %}>Shopping</option>
-                <option value="Entertainment" {% if data.category=='Entertainment' %}selected{% endif %}>Entertainment
-                </option>
-            </select>
+            <label class="form-label fw-bold">{{ form.category.label }}</label>
+            {{ form.category(class="form-control", id="category", value=form.category.data or allExpense.category)}}
         </div>
         <div class="mb-3">
-            <label for="date" class="form-label">Date</label>
-            <input type="date" class="form-control" value="{{data.date}}" id="date" name="date" required>
+            <label class="form-label fw-bold">{{ form.date.label }}</label>
+            {{ form.date(class="form-control", id="date", value=form.date.data or allExpense.date) }}
         </div>
-        <button type="submit" class="btn btn-success mb-4">Update Expense</button>
+<!-- Button trigger modal -->
+        <button type="button" class="btn" style="background-color:#1e3a8a; color:white;" data-bs-toggle="modal" data-bs-target="#exampleModal">Save changes</button>
+<!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Update Confirmation</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                      <div class="modal-body">
+                          Are you sure you want to update this expense?
+                      </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-sm">{{ form.submit.label }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 {% endblock body %}

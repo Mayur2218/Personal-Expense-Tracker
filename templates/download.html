@@ -1,0 +1,59 @@
+{% extends 'main.html' %}
+{% block body %}
+    <div class="mt-5">
+        <div class="card shadow-lg p-4 mx-auto" style="max-width: 550px;">
+            <h2 class="text-center text-dark">Expense Report Download</h2>
+            <p class="text-center text-muted">Generate and download your expense report for better financial tracking.</p>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        {{ messages[0] }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <form action="{{ url_for('download_pdf') }}" method="POST" class="mt-2" enctype="application/x-www-form-urlencoded">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">User ID:</label>
+                    <span class="form-control">{{ user.id }}</span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Select Report Type:</label>
+                    <span class="form-control">{{ report_type }}</span>
+                </div>
+                <input type="hidden" name="report_type" value="{{ report_type }}">
+                <div class="mb-3">
+                    <label for="download_type" class="form-label fw-bold">Select Download Type:</label>
+                    <select id="download_type" name="download_type" class="form-select border-dark" required>
+                        <option value="pdf">PDF</option>
+                        <option value="csv">CSV</option>
+                    </select>
+                </div>
+                {% if report_type == 'monthly' %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Select Month (Available):</label>
+                        <select name="month_name" class="form-select border-dark" required>
+                            {% for month in month_years %}
+                                <option value="{{ month }}">{{ month }}</option>
+                            {% else %}
+                                <option disabled>No available months</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% elif report_type == 'year' %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Enter year:</label>
+                        <select name="year_name" class="form-select boarder-dark" required>
+                            {% for year in year_select %}
+                                <option value="{{ year }}">{{ year }}</option>
+                            {% else %}
+                                <option disabled>No available years</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endif %}
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Download Expense Report</button>
+            </form>
+        </div>
+    </div>
+{% endblock body %}
